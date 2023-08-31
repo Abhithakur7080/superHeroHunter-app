@@ -12,6 +12,7 @@ var comics = document.getElementById('comics');
 var series = document.getElementById('series');
 var stories = document.getElementById('stories');
 
+console.log(heroInfo);
 // set name
 title.innerHTML = heroInfo.name;
 

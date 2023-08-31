@@ -48,23 +48,30 @@ window.addEventListener("load", function () {
             </li>`
 
    })
-   addEvent()
-   
-
 })
 // event for removing the card from localstorage
-function addEvent() {
-    let removeBtn = document.querySelectorAll(".removebtn");
-    removeBtn.forEach((btn) => btn.addEventListener("click", removeSuperheroFromFavourites))
+// function addEvent() {
+//     let removeBtn = document.querySelectorAll(".removebtn");
+//     removeBtn.forEach((btn) => btn.addEventListener("click", removeSuperheroFromFavourites))
 
-    let superheroInfo = document.querySelectorAll(".superhero-info");
-    superheroInfo.forEach((superhero) => superhero.addEventListener("click", openSinglePage));
+//     let superheroInfo = document.querySelectorAll(".superhero-info");
+//     superheroInfo.forEach((superhero) => superhero.addEventListener("click", openSinglePage));
     
-}
+// }
+document.addEventListener('click', e => {
+     let target = e.target;
+     if (target.classList.contains("removebtn")) {
+          removeSuperheroFromFavourites(target);
+     }
+     if (target.classList.contains("superhero-info")) {
+         openSinglePage(target);
+         window.open("./single.html", "_blank");
+     }
+ })
 //function for removing the cards
-function removeSuperheroFromFavourites() {
+function removeSuperheroFromFavourites(e) {
      
-    let idOfSuperheroToBeDeleted = this.parentElement.children[2].innerHTML.substring(5);
+    let idOfSuperheroToBeDeleted = e.parentElement.children[2].innerHTML.substring(5);
     // get parse data from localstorage
     let favourites = JSON.parse(localStorage.getItem("favouriteCharacters"));
     //set mapped data to delete and map new conatiner
@@ -86,23 +93,14 @@ function removeSuperheroFromFavourites() {
     localStorage.setItem("favouriteCharacters", JSON.stringify(favourites));
     //also set array data in stringify form
     localStorage.setItem("favouritesCharacterIDs", JSON.stringify([...favouritesCharacterIDs]));
-    this.parentElement.remove();
+    e.parentElement.remove();
 
 }
 //onclick open information page
-function openSinglePage(e) {
+function openSinglePage() {
      // get info from searchedSuperhero
-     let heroInfo = {
-         name: e.parentElement.parentElement.children[2].children[0].innerHTML,
-         description: e.parentElement.parentElement.children[2].children[1].innerHTML,
-         comics: e.parentElement.parentElement.children[2].children[2].innerHTML,
-         series: e.parentElement.parentElement.children[2].children[3].innerHTML,
-         stories: e.parentElement.parentElement.children[2].children[4].innerHTML,
-         portraitImage: e.parentElement.parentElement.children[2].children[5].innerHTML,
-         id: e.parentElement.parentElement.children[2].children[6].innerHTML,
-         landscapeImage: e.parentElement.parentElement.children[2].children[7].innerHTML,
-         squareImage: e.parentElement.parentElement.children[2].children[8].innerHTML
-     }
+     let heroInfo = JSON.parse(localStorage.getItem("heroInfo"));
+     console.log(heroInfo);
      //set data to the locastorage in string format
      localStorage.setItem("heroInfo", JSON.stringify(heroInfo));
  }
